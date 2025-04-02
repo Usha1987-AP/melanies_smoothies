@@ -1,16 +1,14 @@
 
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col,when_matched
-
 
 st.title(":cup_with_straw: Customize your Smoothie! :cup_with_straw:")
 st.write(
     """Order that need to be filled.
     """
 )
-
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect()
 
 if my_dataframe:
